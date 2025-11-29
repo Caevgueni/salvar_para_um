@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.devsuperior.aula.DTO.PersonDepartmentDTO;
 import com.devsuperior.aula.entities.Department;
 import com.devsuperior.aula.entities.Person;
+import com.devsuperior.aula.repositories.DepartmentRepository;
 import com.devsuperior.aula.repositories.PersonRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +18,8 @@ public class PersonService {
 	@Autowired
 	private PersonRepository repository;
 	
+	@Autowired
+	private DepartmentRepository     deprepository;
 	
 	public PersonDepartmentDTO insert(PersonDepartmentDTO dto) {
 		
@@ -25,8 +28,10 @@ public class PersonService {
 		entity.setName(dto.getName());
 		entity.setSalary(dto.getSalary());
 		
-		Department dept = new Department();
-		dept.setId(dto.getDepartment().getId());
+		Department dept =  deprepository.getReferenceById(dto.getDepartment().getId());
+		
+		//Department dept = new Department();
+		//dept.setId(dto.getDepartment().getId());
 	
 		entity.setDepartment(dept);
 		
